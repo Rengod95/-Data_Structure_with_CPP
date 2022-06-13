@@ -1,0 +1,182 @@
+#include <iostream>
+#include <string.h>
+#pragma warning (disable:4996)
+
+using namespace std;
+
+int XpowerN(int x, int n) {
+	int result = 1;
+	if (n == 0) {
+		return 1;
+	}
+	else {
+		for (int i = 0; i < n; i++) {
+			result *= x;
+		}
+		return result;
+	}
+
+
+
+
+2 4 1 2 3  -- 9
+2 4 1 3    - 7
+
+2 4 - 1 3
+}
+
+class Polynomial {
+private :
+	int *expression;
+	int terms;
+	int degree;
+public :
+	Polynomial() {
+	}
+	Polynomial(int degree) {
+		this->terms = degree + 1;
+		expression = new int[terms];
+		for (int i = 0; i < terms; i++) {
+			expression[i] = 0;
+		}
+		this->degree = degree;
+	}
+	void input() {
+		int n = 1;
+		int degree = 1;
+		int coef = 1;
+		while (degree != 0) {
+			cout << n << "번째 항의 지수 , 계수 입력" << endl;
+			cout << "계수 : ";
+			cin >> coef;
+			cout << "지수 : ";
+			cin >> degree;
+			if (n == 1) {
+				this -> expression = new int[degree+1];
+				this->degree = degree;
+				this->terms = degree + 1;
+				for (int i = 0; i < terms; i++) {
+					expression[i] = 0;
+				}
+			}
+			expression[degree] = coef;
+			n++;
+		}
+	}
+	int getDegree() {
+		return this->degree;
+	}
+	int getTerms() {
+		return this -> terms;
+	}
+	int * getExpression() {
+		return this->expression;
+	}
+	Polynomial operator+(Polynomial & a) {
+		int degree_temp;
+		int terms_temp;
+		int smaller;
+		int stat;
+		if (this->degree >= a.degree) {
+			degree_temp = this->degree;
+			smaller = a.degree;
+			stat = 1;
+		}
+		else {	
+			degree_temp = a.degree;
+			smaller = this->degree;
+			stat = 2;
+		}
+		Polynomial result(degree_temp);
+		terms_temp = degree_temp + 1;
+		for (int i = 0; i < terms_temp; i++) {
+			if (i <= smaller) {
+				result.expression[i] = this->expression[i] + a.expression[i];
+			}
+			else {
+				if (stat == 1) {
+					result.expression[i] = this->expression[i];
+				}
+				else if (stat == 2) {
+					result.expression[i] = a.expression[i];
+				}
+			}
+		}
+		return result;
+	}
+	Polynomial operator* (Polynomial & a) {
+		int degree = this->degree + a.degree;
+		Polynomial result(degree);
+		int * temp = result.getExpression();
+		for (int i = 0; i < this->terms; i++) {
+			for (int o = 0; o < a.terms; o++) {
+				temp[i + o] += this->expression[i] * a.expression[o];
+			}
+		}
+		return result;
+	}
+	
+	void operator=(Polynomial &a) {
+		this->terms = a.terms;
+		this->expression = new int[this->terms + 1];
+		for (int i = 0; i < this->terms; i++) {
+			this->expression[i] = a.expression[i];
+		}
+	}
+	int subSituatiing(int x) {
+		int result = 0;
+		for (int i = 0; i < this->terms; i++) {
+			result += XpowerN(x, i) *this->expression[i];
+		}
+		return result;
+	}
+	
+	friend ostream& operator << (ostream &os, Polynomial & pm);
+};
+ostream& operator << (ostream &os, Polynomial & pm) {
+	int * temp = pm.getExpression();
+	for (int i = pm.getDegree(); i >= 0; i--) {
+		if (temp[i] == 0) {
+			continue;
+		}
+		if (i == pm.getDegree()) {
+			if (i == 0) {
+				os << temp[i];
+			}
+			else {
+				os << temp[i] << "x^" << i;
+			}
+		}
+		else if (i != 0) {
+			os << " + " << temp[i] << "x^" << i;
+		}
+		else {
+			os << " + " << temp[i];
+		}
+
+	}
+	os << endl;
+	return os;
+}
+
+
+int main(void) {
+	Polynomial pm1 ,pm2;
+	int x;
+	cout << "A(x) " << endl;
+	pm1.input();
+	cout << "B(x) " << endl;
+	pm2.input();
+	cout << "A(x) = " << pm1;
+	cout << "B(x) = " << pm2;
+	cout << "A(x) + B(x) = C(x)" << endl;
+	cout << "A(x) * B(x) = D(x)" << endl;
+	Polynomial pm3 = pm1 + pm2;
+	Polynomial pm4 = pm1 * pm2;
+	cout << "C(x) = " << pm3;
+	cout << "D(x) = " << pm4;
+	cout << "D(x) 에 들어갈 x 를 입력 : ";
+	cin >> x;
+	cout << "D(" << x << ") = " << pm4.subSituatiing(x) << endl;
+	return 0;
+}
