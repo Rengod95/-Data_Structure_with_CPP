@@ -64,7 +64,7 @@ public:
 	void push(T& target){
 		if(Size() == this->capacity){ // 원소의 개수 == 배열의 크기 => 꽉 참 => 2배로 늘림
 			T* tmp = new T[capacity*2];
-			copy(bagArray,bagArray+capacity,tmp);
+			copy(bagArray,bagArray+capacity,tmp);    // bacArray 포함, bagArray+capacity -1 까지
 			this-> capacity *=2;
 			delete[] bagArray;
 			bagArray = tmp;
@@ -74,7 +74,7 @@ public:
 
 	void pop(){
 		if(isEmpty()) throw "empty";
-		int deletePos = top/2;
+		int deletePos = top/2;  // bagArray[deletePos+1] => *(bagArray+deletePos+1)
 		copy(bagArray+deletePos+1,bagArray+top+1,bagArray+deletePos);
 		bagArray[top--].~T(); // 원소 하나가 삭제 됐으니 top이 가리키는 공간은 이제 빈공간이므로 메모리 삭제, 한칸 앞으로 당김 +1을 안하는 이유는 인덱스 이기 때문
 	}

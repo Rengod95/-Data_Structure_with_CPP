@@ -68,7 +68,7 @@ public:
 		bool operator ==(const iterator X){return this->current == X.current;};
 	};
 
-	iterator begin(){
+	iterator begin() const {
 		return iterator(head);
 	}
 
