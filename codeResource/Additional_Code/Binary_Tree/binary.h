@@ -3,82 +3,105 @@
 #include <vector>
 using namespace std;
 
-template<class T> class BinaryTree;
-template<class T>
+class BinarySearchTree;
+
 class Node{
-	friend class BinaryTree<T>;
+	friend class BinarySearchTree;
 private:
-	T data;
+	char data;
 	int key;
-	Node<T>* leftChild;
-	Node<T>* rightChild;
+	Node* leftChild;
+	Node* rightChild;
 public:
-	Node(T _data=0, int _key=0, Node<T>* _left = 0, Node<T>* _right=0): data(_data), key(_key), leftChild(_left),rightChild(_right){};
+	Node( int _key=0, char _data=0, Node<T>* _left = 0, Node<T>* _right=0): data(_data), key(_key), leftChild(_left),rightChild(_right){};
 	Node(){
 	}
 	~Node(){delete leftChild; delete rightChild;};
+
+	void getLeftChild(){
+		return this->leftChild;
+	}
+	void getRightChild(){
+		return this->rightChild;
+	}
+	void getNodeData(){
+		return this->data;
+	}
+	void getNodeKey(){
+		return this->key;
+	}
 };
-// var++ => var = var + 1
-template<class T>
-class BinaryTree{
+
+class BinarySearchTree{
 private:
-	Node<T>* root;
-	vector<Node<T>*> nodes;
+	Node* root;
+	vector<Node*> nodes;
 public:
-	BinaryTree(T* node=0): root(node){};
+	BinaryTree(Node* node=0): root(node){};
 
 	bool isEmpty(){
 		return root == 0;
 	}
-	void visit(Node<T>* N){
+	void visit(Node* N){
 		nodes.push_back(N);
+	}
+	void getRoot(){
+		return this->root;
 	}
 
 	void inOrder(){
 		inOrder(root);
 	}
-	void inOrder(Node<T>* currentNode){
+	void inOrder(Node* currentNode){
 		if(currentNode){
-			inOrder(currentNode->leftChild);
+			inOrder(currentNode->getLeftChild());
 			visit(currentNode);
-			inOrder(currentNode->rightChild);
+			inOrder(currentNode->getRightChild());
 		}
 	}
 
-	void preOrder(){
-		preOrder(root);
+	Node* inputNode(){
+		char _data;
+		int _key;
+		cin >> _key >> _data << endl;
+		Node* tmp = new Node(_key, _data,0,0);
+		return tmp;
 	}
-	void preOrder(Node<T>* currentNode){
-		if(currentNode){
-			visit(currentNode);
-			preOrder(currentNode->leftChild);
-			preOrder(currentNode->rightChild);
+
+	void insertNode(Node* target){
+		insertNode(root, target);
+	}
+	void insertNode(Node* parent, Node* target){
+		if(target->getNodeKey() <=  parent->getNodeKey()){
+			if(parent->getLeftChild() == 0){
+				parent->getLeftChild() = target;
+				return;
+			}
+			else insertNode(parent->getLeftChild(), target);
+		}
+		else if(target->getNodeKey() > parent->getNodeKey()){
+			if(parent->getRightChild() == 0){
+				parent->getRightChild() = target;
+				return;
+			}else insertNode(parent->getRightChild(), target);
 		}
 	}
 
-	void postOrder(){
-		postOrder(root);
-	}
-	void postOrder(Node<T>* currentNode){
-		if(currentNode){
-			postOrder(currentNode->leftChild);
-			postOrder(currentNode->rightChild);
-			visit(currentNode);
+	void removeNode(Node* parent, Node* child, int targetKey){
+		if(this->isEmpty()){
+			cout << "루트 노드가 존재하지 않습니다."
 		}
+
+
+
 	}
 
-	void nonRecurInOrder(){
-		vector<Node<T>*> s;
-		Node<T>* currentNode = root;
-		while (currentNode){
-			s.push_back(currentNode);
-			currentNode=currentNode->leftChild;
-		}
-		if(s.empty()) return;
-		currentNode = s.end(); s.pop_back();
-		visit(currentNode);
-		currentNode = currentNode->rightChild;
-	}
+
+
+
+
+
+
 
 	void levelOrder(){
 		vector<Node<T>*> s;

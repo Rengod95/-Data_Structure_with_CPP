@@ -84,7 +84,7 @@ public:
 	}
 
 	T& printFrontElement(){
-		return array[(front+1)&capacity]; // capacity로 나눠주는 이유는 배열에서 front가 맨 끝 원소를 가리키고 있는 경우를 생각하면 됌, 무조건 +1을 더해줘야하니 오버플로우 발생 가능성을 차단
+		return array[(front+1)%capacity]; // capacity로 나눠주는 이유는 배열에서 front가 맨 끝 원소를 가리키고 있는 경우를 생각하면 됌, 무조건 +1을 더해줘야하니 오버플로우 발생 가능성을 차단
 	}
 
 	T& printRearElement(){

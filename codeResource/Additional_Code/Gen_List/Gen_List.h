@@ -19,6 +19,7 @@ private:
 public:
 
 	void copyList(const GenList<T>& L){ first = L.first;};
+
 	Node<T>* copyList(Node<T>* P){
 		Node<T>* Q = 0;
 		if(P){
