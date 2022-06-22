@@ -86,10 +86,38 @@ public:
 			}else insertNode(parent->getRightChild(), target);
 		}
 	}
+	Node* minValueNode(Node* node)
+	{
+		Node* current = node;
 
-	void removeNode(Node* parent, Node* child, int targetKey){
+		while (current && current->left != NULL)
+			current = current->left;
+
+		return current;
+	}
+
+	void removeNode(Node* searchNode, int targetKey){
 		if(this->isEmpty()){
 			cout << "루트 노드가 존재하지 않습니다."
+			return;
+		}
+		if(targetKey < target->getNodeKey()){
+			removeNode(searchNode->getLeftChild(), targetKey);
+		}
+		else if (targetKey > parent->getNodeKey()){
+			removeNode(searchNode->getRightChild(),targetKey);
+		}
+		else{
+			if(!searchNode->getRightChild() && !searchNode->getLeftChild()){
+				delete searchNode;
+				searchNode= 0;
+			}   // searchNode(삭제할 노드)가 리프노드 인 경우
+			else if(searchNode->getLeftChild() == 0){
+
+			}
+			else if(searchNode-> getRightChild() == 0){
+
+			}
 		}
 
 

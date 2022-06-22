@@ -9,24 +9,28 @@ public:
 	char value;
 	Node* leftChild = nullptr;
 	Node* rightChild = nullptr;
-	Node () = default;
-	Node(int _key, char _value, Node* _leftChild, Node* _rightChild) : key(_key), value(_value) ,leftChild(_leftChild), rightChild(_rightChild) { }
+	Node() = default;
+	Node(int _key, char _value, Node* _leftChild, Node* _rightChild) : key(_key), value(_value), leftChild(_leftChild), rightChild(_rightChild) { }
 
-// 트리에 target 이 있다면 해당 노드 리턴
+	// 트리에 target 이 있다면 해당 노드 리턴
 	Node* BST_SearchNode(Node* tree, int target)
 	{
-		if (tree == nullptr)
+		if (tree == nullptr){
+			cout<<"Does not exist"<<endl;
 			return nullptr;
-
-		if (tree->key == target)
+		}
+		if (tree->key == target) {
 			return tree;
-		else if (tree->key > target)
+		}
+		else if (tree->key > target) {
 			return BST_SearchNode(tree->leftChild, target);
-		else if (tree->key < target)
+		}
+		else if (tree->key < target) {
 			return BST_SearchNode(tree->rightChild, target);
-
+		}
 	}
 
+	//중위순회로 vector에 삽입
 	void BST_InOrder(Node* tree, vector<int>& pos, vector<char>& keys)
 	{
 		if (tree == nullptr)
@@ -38,6 +42,7 @@ public:
 
 	}
 
+	//삽입
 	void BST_InsertNode(Node* tree, Node* node)
 	{
 		if (node->key <= tree->key) { // 현재 재귀 단계에서의 트리의 루트와 크기 비교 (서브트리의 루트)
@@ -58,6 +63,7 @@ public:
 		}
 	}
 
+	//
 	Node* BST_SearchMinNode(Node* tree)
 	{
 		if (tree == nullptr)
@@ -75,10 +81,13 @@ public:
 		// 삭제할 노드의 위치가 되는 노드는 tree 에, 삭제할 노드의 부모는 parent 에 저장된다.
 		// 삭제할 노드(tree)는 removedNode 에 복사해 옮겨두고 나중에 이를 리턴한다.
 		// tree 의 값을 새롭게 세팅해 이제 삭제되고 새로운 노드로 대체된 것처럼 연산해준다.
-		if(tree->key == target){
-			cout << "최상위 노드는 삭제할 수 없습니다."<< endl;
-			return nullptr;
+		/*
+		if (tree->key == target) {
+		   cout << "최상위 노드는 삭제할 수 없습니다." << endl;
+		   return nullptr;
 		}
+		*/
+
 		if (tree == nullptr)
 			return nullptr;
 
@@ -127,55 +136,55 @@ public:
 };
 
 
-void initializeBST(){
+void initializeBST() {
 	int select = 0;
 	bool firstInput = true;
 	int tmpKey;
 	char tmpValue;
-	Node tree(NULL,NULL, nullptr, nullptr);
+	Node* tree = nullptr;
 	vector<int> treeKeys;
 	vector<char> treeValues;
 
-	while(true){
+	while (true) {
 		cout << "1.입력 2.탐색 3.삭제 4.보기 5.종료" << endl;
 		cin >> select;
 
-		if(select == 1){
+		if (select == 1) {
 			cin >> tmpKey >> tmpValue;
-			if(firstInput){
-				tree.key = tmpKey;
-				tree.value = tmpValue;
-				cout << "헤드 노드 삽입"<< endl;
+			if (firstInput) {
+				tree = new Node(tmpKey, tmpValue, nullptr, nullptr);
 				firstInput = false;
 			}
-			else{
-				tree.BST_InsertNode(&tree, new Node(tmpKey,tmpValue, nullptr, nullptr));
+			else {
+				tree->BST_InsertNode(tree, new Node(tmpKey, tmpValue, nullptr, nullptr));
 			}
 
-			treeKeys.clear();
-			treeValues.clear();
-		}else if(select == 2){
+		}
+		else if (select == 2) {
 			cin >> tmpKey;
-			Node* tmp = tree.BST_SearchNode(&tree,tmpKey);
+			Node* tmp = tree->BST_SearchNode(tree, tmpKey);
 			cout << tmp->value << endl;
-		} else if(select==3){
+		}
+		else if (select == 3) {
 			cin >> tmpKey;
-			tree.BST_RemoveNode( &tree, nullptr,tmpKey);
+			tree->BST_RemoveNode(tree, nullptr, tmpKey);
 			treeKeys.clear();
 			treeValues.clear();
-		} else if(select == 4){
-			tree.BST_InOrder(&tree,treeKeys,treeValues);
-			cout << "Value : " <<endl;
-			for(auto loop : treeValues)
+		}
+		else if (select == 4) {
+			tree->BST_InOrder(tree, treeKeys, treeValues);
+			cout << "Value : " << endl;
+			for (auto loop : treeValues)
 			{
-				cout  <<  loop<< " ";
+				cout << loop << " ";
 			}
-			cout<< endl;
+			cout << endl;
 
 			treeKeys.clear();
 			treeValues.clear();
-		}else if (select == 5){
-			cout<< "종료되었습니다."<<endl;
+		}
+		else if (select == 5) {
+			cout << "종료되었습니다." << endl;
 			exit(0);
 		}
 
