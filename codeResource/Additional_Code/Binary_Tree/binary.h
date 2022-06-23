@@ -83,13 +83,13 @@ public:
 		}
 	}
 
-	void printBST(){
-		initVector();
-		inOrder();
-		cout << "Value : " << endl;
-		for (auto loop : dataVector){cout << loop << " ";}
-		cout << endl;
-	}
+//	void printBST(){
+//		initVector();
+//		inOrder();
+//		cout << "Value : " << endl;
+//		for (auto loop : dataVector){cout << loop << " ";}
+//		cout << endl;
+//	}
 
 	Node* inputNode(){
 		char _data;
@@ -170,7 +170,7 @@ public:
 
 	}
 
-	void initializeBST(){
+	void initialize(){
 		int select = 0;
 		bool firstInput = true;
 		while(true){

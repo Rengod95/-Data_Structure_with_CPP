@@ -2,5 +2,5 @@
 
 int main(){
 	BinarySearchTree test;
-	test.initializeBST();
+	test.initialize();
 }
