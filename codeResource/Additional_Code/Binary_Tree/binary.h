@@ -83,13 +83,13 @@ public:
 		}
 	}
 
-//	void printBST(){
-//		initVector();
-//		inOrder();
-//		cout << "Value : " << endl;
-//		for (auto loop : dataVector){cout << loop << " ";}
-//		cout << endl;
-//	}
+	void printBST(){
+		initVector();
+		inOrder();
+		cout << "Value : " << endl;
+		for (auto loop : dataVector){cout << loop << " ";}
+		cout << endl;
+	}
 
 	Node* inputNode(){
 		char _data;
